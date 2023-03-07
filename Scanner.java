@@ -39,7 +39,8 @@ public class Scanner {
     }
 
     List<Token> scanTokens(){
-        //Aquí va el corazón del scanner.
+        //Aquí va el corazón del scanner 
+        <3.
 
         /*
         Analizar el texto de entrada para extraer todos los tokens
