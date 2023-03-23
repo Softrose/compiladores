@@ -1,4 +1,4 @@
-package mx.ipn.escom.compiladores;
+//package mx.ipn.escom.compiladores;
 
 public class Token {
 
@@ -15,6 +15,6 @@ public class Token {
     }
 
     public String toString(){
-        return tipo + " " + lexema + " " + literal;
+        return tipo + " " + lexema + " " + literal + " " + linea;
     }
 }

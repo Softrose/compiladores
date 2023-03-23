@@ -1,4 +1,4 @@
-package mx.ipn.escom.compiladores;
+//package mx.ipn.escom.compiladores;
 
 public enum TipoToken {
     // Crear un tipoToken por palabra reservada
@@ -7,7 +7,18 @@ public enum TipoToken {
 
 
     // Palabras clave:
-    Y, CLASE,
+    And, Class, Else, False, For, Fun, If, Null, 
+    Or, Print, Return, Super, This, True, Var, While,  
+
+
+    // Simbolos
+    Open_parent, Close_parent, Open_curly, Close_curly,
+    Comma, Dot, Dot_comma, Hyphen, Plus, Star, Slash,
+    ExclamationMark, Exclamation_equal, Equal, Equal_equal,
+    LessThan, Less_equal, GreatherThan, Greather_equal,
+
+    // Extras
+    Identifier, String, Number,
 
     // Final de cadena
     EOF

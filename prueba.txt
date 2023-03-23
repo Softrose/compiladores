@@ -1,0 +1,9 @@
+int         main(){
+	a = 10    ;
+	b = a + 5;
+	d = 4.51 ;
+	printf("%d ", c);
+	if (a == 5)    {
+		c = a +b ;
+	}
+}te amo

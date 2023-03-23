@@ -1,4 +1,4 @@
-package mx.ipn.escom.compiladores;
+//package mx.ipn.escom.compiladores;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class Interprete {
         List<Token> tokens = scanner.scanTokens();
 
         for(Token token : tokens){
-            System.out.println(token);
+         //   System.out.println(token);
         }
     }
 
