@@ -6,4 +6,4 @@ int         main(){
 	if (a == 5)    {
 		c = a +b ;
 	}
-}te amo
+}te 
