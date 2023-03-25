@@ -20,6 +20,7 @@ public class Scanner {
     private String literal = "";
     private boolean esCadena = false;
     private int longitud;
+    private boolean comentario = false;
 
     private static final Map<String, TipoToken> palabrasReservadas;
     static {
@@ -83,7 +84,7 @@ public class Scanner {
             //Si espacio o salto de linea lexema termina
 
             if((caracter == ' ' || caracter == '\n') && !leyendoCadena ){
-                if(lexema != "" && (caracter != '\n' && lexema.length() > 1)){
+                if(lexema != "" && (caracter != '\n' && lexema.length() > 0)){
                 TipoToken tipo = palabrasReservadas.get(lexema);
                     if(isNumeric(literal)){
                         tipo = TipoToken.Number;
@@ -103,7 +104,7 @@ public class Scanner {
             //Si encuentro un simbolo
             }else if((simbolos.containsKey(buscarSimbolo)) && !leyendoCadena){
 
-                if(lexema != "" && (caracter != '\n' && lexema.length() > 1)){
+                if(lexema != "" && (caracter != '\n' && lexema.length() > 0)){
                 TipoToken tipo = palabrasReservadas.get(lexema);
                     if(isNumeric(literal)){
                         tipo = TipoToken.Number;
@@ -147,6 +148,10 @@ public class Scanner {
                     leyendoCadena = true;
                     lexema =  '"' + lexema ;
                 }
+            /*}else if(caracter == '\'){
+                if(source.charAt(x+1)){
+
+                }*/
             }else{
                 lexema = lexema + "" + caracter;
                 literal = literal + "" + caracter;
