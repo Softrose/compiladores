@@ -83,7 +83,7 @@ public class Scanner {
             //Si espacio o salto de linea lexema termina
 
             if((caracter == ' ' || caracter == '\n') && !leyendoCadena ){
-                if(lexema.length() > 0){
+                if(lexema != "" && (caracter != '\n' && lexema.length() > 1)){
                 TipoToken tipo = palabrasReservadas.get(lexema);
                     if(isNumeric(literal)){
                         tipo = TipoToken.Number;
@@ -99,10 +99,11 @@ public class Scanner {
                     
                 }
                 lexema = "";
+                literal = "";
             //Si encuentro un simbolo
             }else if((simbolos.containsKey(buscarSimbolo)) && !leyendoCadena){
 
-                if(lexema.length() > 0){
+                if(lexema != "" && (caracter != '\n' && lexema.length() > 1)){
                 TipoToken tipo = palabrasReservadas.get(lexema);
                     if(isNumeric(literal)){
                         tipo = TipoToken.Number;
@@ -136,6 +137,7 @@ public class Scanner {
                     tokens.add(tokenS);
                 }
                 lexema = "";
+                literal = "";
             }else if(caracter == '"'){
                 esCadena = true;
                 if (leyendoCadena == true) {
@@ -147,7 +149,7 @@ public class Scanner {
                 }
             }else{
                 lexema = lexema + "" + caracter;
-                literal = lexema;
+                literal = literal + "" + caracter;
             }
             if(caracter == '\n'){
                 linea = linea + 1;
