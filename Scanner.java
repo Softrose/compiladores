@@ -12,10 +12,13 @@ public class Scanner {
     private final List<Token> tokens = new ArrayList<>();
 
     private int linea = 1;
-    private String fragmento = "";
+    private String lexema = "";
     private char caracter;
     private String buscarSimbolo = "";
     private String simboloCompuesto = "";
+    private boolean leyendoCadena = false;
+    private String literal = "";
+    private boolean esCadena = false;
     private int longitud;
 
     private static final Map<String, TipoToken> palabrasReservadas;
@@ -47,7 +50,7 @@ public class Scanner {
         simbolos.put("{", TipoToken.Open_curly);
         simbolos.put("}", TipoToken.Close_curly);
         simbolos.put(",", TipoToken.Comma);
-        simbolos.put(".", TipoToken.Dot);
+        //simbolos.put(".", TipoToken.Dot);
         simbolos.put(";", TipoToken.Dot_comma);
         simbolos.put("-", TipoToken.Hyphen);
         simbolos.put("+", TipoToken.Plus);
@@ -77,30 +80,42 @@ public class Scanner {
             caracter = source.charAt(x);
             buscarSimbolo = caracter + "";
             
-            //Si espacio o salto de linea fragmento termina
-            if(caracter == ' ' || caracter == '\n' ){
-                if(fragmento.length() > 0){
-                TipoToken tipo = palabrasReservadas.get(fragmento);
-                    if(tipo == null){
+            //Si espacio o salto de linea lexema termina
+
+            if((caracter == ' ' || caracter == '\n') && !leyendoCadena ){
+                if(lexema.length() > 0){
+                TipoToken tipo = palabrasReservadas.get(lexema);
+                    if(isNumeric(literal)){
+                        tipo = TipoToken.Number;
+                    }else if (esCadena) {
+                        tipo = TipoToken.String;
+                        esCadena = false;
+                    }else if (tipo == null){
                         tipo = TipoToken.Identifier;
                     }
-
-                    Token token = new Token(tipo, fragmento, fragmento, linea);
+                    Token token = new Token(tipo, lexema, literal, linea);
 
                     tokens.add(token);
                     
                 }
-                fragmento = "";
+                lexema = "";
             //Si encuentro un simbolo
-            }else if(simbolos.containsKey(buscarSimbolo)){
+            }else if((simbolos.containsKey(buscarSimbolo)) && !leyendoCadena){
 
-                if(fragmento.length() > 0){
-                    TipoToken tipo = palabrasReservadas.get(fragmento);
-                    if(tipo == null){
+                if(lexema.length() > 0){
+                TipoToken tipo = palabrasReservadas.get(lexema);
+                    if(isNumeric(literal)){
+                        tipo = TipoToken.Number;
+                    }else if (esCadena) {
+                        tipo = TipoToken.String;
+                        esCadena = false;
+                    }else if (tipo == null){
                         tipo = TipoToken.Identifier;
                     }
-                    Token token = new Token(tipo, fragmento, fragmento, linea);
+                    Token token = new Token(tipo, lexema, literal, linea);
+
                     tokens.add(token);
+                    
                 }
                 
                 simboloCompuesto = buscarSimbolo + source.charAt(x+1);
@@ -112,6 +127,7 @@ public class Scanner {
 
                     tokens.add(tokenC);
                     x = x + 1;
+                
                 }else{
                     TipoToken tipoS = simbolos.get(buscarSimbolo);
 
@@ -119,9 +135,19 @@ public class Scanner {
 
                     tokens.add(tokenS);
                 }
-                fragmento = "";
+                lexema = "";
+            }else if(caracter == '"'){
+                esCadena = true;
+                if (leyendoCadena == true) {
+                    leyendoCadena = false;
+                    lexema =  lexema + '"';
+                }else{
+                    leyendoCadena = true;
+                    lexema =  '"' + lexema ;
+                }
             }else{
-                fragmento = fragmento + "" + caracter;
+                lexema = lexema + "" + caracter;
+                literal = lexema;
             }
             if(caracter == '\n'){
                 linea = linea + 1;
@@ -141,6 +167,22 @@ public class Scanner {
 
         return tokens;
     }
+
+
+    public static boolean isNumeric(String cadena) {
+
+        boolean resultado;
+
+        try {
+            Integer.parseInt(cadena);
+            resultado = true;
+        } catch (NumberFormatException excepcion) {
+            resultado = false;
+        }
+
+        return resultado;
+    }
+
 }
 
 /*

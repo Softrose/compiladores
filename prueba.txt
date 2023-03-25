@@ -1,9 +1,2 @@
-int         main(){
-	a = 10    ;
-	b = a + 5;
-	d = 4.51 ;
-	printf("%d ", c);
-	if (a == 5)    {
-		c = a +b ;
-	}
-}te 
+printf("Hola tu de algoque nosé3411234;asdad") 
+a = 14234;
