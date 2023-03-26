@@ -1,11 +1,5 @@
-                    printf 
-                    ("Hola tu de algoque nosé3411234;asdad") 
+printf("Hola tu de algoque nosé3411234;asdad") 
 a = 14234;
-//Te amo Dogelin
-
- mucho// es verda
-
-/* ffff aaaaaaaaj
-asd
-addddd        f
-*/
+Te amo Dogelin
+Mucho
+<3
