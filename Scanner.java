@@ -56,7 +56,7 @@ public class Scanner {
         simbolos.put(";", TipoToken.Dot_comma);
         simbolos.put("-", TipoToken.Hyphen);
         simbolos.put("+", TipoToken.Plus);
-        simbolos.put("*", TipoToken.Star);
+        //simbolos.put("*", TipoToken.Star);
         //simbolos.put("/", TipoToken.Slash);
         simbolos.put("!", TipoToken.ExclamationMark);
         simbolos.put("!=", TipoToken.Exclamation_equal);
