@@ -75,7 +75,7 @@ public class Scanner {
 
     List<Token> scanTokens(){
         //Aquí va el corazón del scanner <3.
-        source = source + "\n";
+        source = source + " \n";
         longitud = source.length();
         
         for(int x = 0; x < longitud; x++){
@@ -83,9 +83,10 @@ public class Scanner {
             buscarSimbolo = caracter + "";
             
             //Si espacio o salto de linea lexema termina
-
-            if((caracter == ' ' || caracter == '\n') && !leyendoCadena && !comentario && !comentarioLargo){
-                if(lexema != "" && (caracter != '\n' && lexema.length() > 0)){
+            System.out.println(lexema);
+            if((caracter == ' ' || caracter == '\n') && !leyendoCadena && !comentario && !comentarioLargo && lexema != ""){
+                if(caracter == '\n' && lexema.length() == 1){
+                }else{
                 TipoToken tipo = palabrasReservadas.get(lexema);
                     if(isNumeric(literal)){
                         tipo = TipoToken.Number;
@@ -98,14 +99,16 @@ public class Scanner {
                     Token token = new Token(tipo, lexema, literal, linea);
 
                     tokens.add(token);
-                    
                 }
+                    
+                
                 lexema = "";
                 literal = "";
             //Si encuentro un simbolo
-            }else if((simbolos.containsKey(buscarSimbolo)) && !leyendoCadena && !comentario && !comentarioLargo){
+            /*}else if((simbolos.containsKey(buscarSimbolo)) && !leyendoCadena && !comentario && !comentarioLargo && lexema != ""){
 
-                if(lexema != "" && (caracter != '\n' && lexema.length() > 0)){
+                if(caracter == '\n' && lexema.length() == 1){
+                }else{
                 TipoToken tipo = palabrasReservadas.get(lexema);
                     if(isNumeric(literal)){
                         tipo = TipoToken.Number;
@@ -152,19 +155,18 @@ public class Scanner {
             }else if(caracter == '/'){
                 if(source.charAt(x+1) == '/'){
                     comentario = true;
-                }
-            }else if(caracter == '/'){
-                if(source.charAt(x+1) == '*'){
+                }else if(source.charAt(x+1) == '*'){
                     comentarioLargo = true;
                 }
             }else if(caracter == '*'){
                 if(source.charAt(x+1) == '/'){
                     comentarioLargo = false;
-                }
+                }*/
             }else{
                 lexema = lexema + "" + caracter;
                 literal = literal + "" + caracter;
             }
+
             if(caracter == '\n'){
                 comentario = false;
                 linea = linea + 1;
@@ -176,11 +178,6 @@ public class Scanner {
         y al final agregar el token de fin de archivo
          */
         tokens.add(new Token(TipoToken.EOF, "", null, linea));
-
-
-        for(int i = 0; i < tokens.size() ; i++){
-            System.out.println(tokens.get(i).toString());
-        }
 
         return tokens;
     }
