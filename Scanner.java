@@ -21,6 +21,7 @@ public class Scanner {
     private boolean esCadena = false;
     private int longitud;
     private boolean comentario = false;
+    private boolean comentarioLargo = false;
 
     private static final Map<String, TipoToken> palabrasReservadas;
     static {
@@ -56,7 +57,7 @@ public class Scanner {
         simbolos.put("-", TipoToken.Hyphen);
         simbolos.put("+", TipoToken.Plus);
         simbolos.put("*", TipoToken.Star);
-        simbolos.put("/", TipoToken.Slash);
+        //simbolos.put("/", TipoToken.Slash);
         simbolos.put("!", TipoToken.ExclamationMark);
         simbolos.put("!=", TipoToken.Exclamation_equal);
         simbolos.put("=", TipoToken.Equal);
@@ -83,7 +84,7 @@ public class Scanner {
             
             //Si espacio o salto de linea lexema termina
 
-            if((caracter == ' ' || caracter == '\n') && !leyendoCadena ){
+            if((caracter == ' ' || caracter == '\n') && !leyendoCadena && !comentario && !comentarioLargo){
                 if(lexema != "" && (caracter != '\n' && lexema.length() > 0)){
                 TipoToken tipo = palabrasReservadas.get(lexema);
                     if(isNumeric(literal)){
@@ -102,7 +103,7 @@ public class Scanner {
                 lexema = "";
                 literal = "";
             //Si encuentro un simbolo
-            }else if((simbolos.containsKey(buscarSimbolo)) && !leyendoCadena){
+            }else if((simbolos.containsKey(buscarSimbolo)) && !leyendoCadena && !comentario && !comentarioLargo){
 
                 if(lexema != "" && (caracter != '\n' && lexema.length() > 0)){
                 TipoToken tipo = palabrasReservadas.get(lexema);
@@ -148,15 +149,24 @@ public class Scanner {
                     leyendoCadena = true;
                     lexema =  '"' + lexema ;
                 }
-            /*}else if(caracter == '\'){
-                if(source.charAt(x+1)){
-
-                }*/
+            }else if(caracter == '/'){
+                if(source.charAt(x+1) == '/'){
+                    comentario = true;
+                }
+            }else if(caracter == '/'){
+                if(source.charAt(x+1) == '*'){
+                    comentarioLargo = true;
+                }
+            }else if(caracter == '*'){
+                if(source.charAt(x+1) == '/'){
+                    comentarioLargo = false;
+                }
             }else{
                 lexema = lexema + "" + caracter;
                 literal = literal + "" + caracter;
             }
             if(caracter == '\n'){
+                comentario = false;
                 linea = linea + 1;
             }
         }

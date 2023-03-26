@@ -13,7 +13,7 @@ public enum TipoToken {
 
     // Simbolos
     Open_parent, Close_parent, Open_curly, Close_curly,
-    Comma, Dot_comma, Hyphen, Plus, Star, Slash,
+    Comma, Dot_comma, Hyphen, Plus, Star,
     ExclamationMark, Exclamation_equal, Equal, Equal_equal,
     LessThan, Less_equal, GreatherThan, Greather_equal,
 
