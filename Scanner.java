@@ -1,4 +1,12 @@
 //package mx.ipn.escom.compiladores;
+
+// Analizador lexico
+// Autor: Karen Soledad y Raul Rosete
+// Fecha: 29/03/2023
+// Materia: Compiladores
+// Grupo 3CV13
+
+
 //Delcaracion de librerias
 import java.util.ArrayList;
 import java.util.HashMap;
