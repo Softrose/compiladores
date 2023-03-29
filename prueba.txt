@@ -1,5 +1,9 @@
-printf("Hola tu de algoque nosé3411234;asdad") 
-a = 14234;
-Te amo Dogelin
-Mucho
-<3
+Ahhhhhhh
+Que onda tu;
+
+/* printf("Hola tu");
+Or //TU VEINTE COMES
+And == 5; //EL NOSOTROS
+*/
+a = 5;
+printf("Hola tu");
