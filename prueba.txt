@@ -1,5 +1,9 @@
-Hola
+Ahhhhhhh
+Que onda tu;
 
-
-Tu
-Yo
+/* printf("Hola tu");
+Or //TU VEINTE COMES
+And == 5; //EL NOSOTROS
+*/
+a = 5;
+printf("Hola tu");
