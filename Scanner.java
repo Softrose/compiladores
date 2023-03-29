@@ -85,7 +85,7 @@ public class Scanner {
     List<Token> scanTokens(){
         //Aquí va el corazón del scanner <3.
         //Agrego un salto de linea para leer el ultimo lexema
-        source = source + "\n";
+        source = source + "\n \n";
         //Asigno la cantidad de caracteres en la entrada a longitud
         longitud = source.length();
         
@@ -101,7 +101,12 @@ public class Scanner {
             //No crea tokens si es cadena o comentario
             if((caracter == ' ' || caracter == '\n') && !leyendoCadena && !comentario && !comentarioLargo){
                 //Si el lexema esta vacio o es salto de linea no lo agrega
-                if(lexema != "" && (caracter != '\n' && lexema.length() > 0)){
+              if(caracter == '\n' && lexema.length() > 0){
+                    lexema = lexema.substring(0, lexema.length() - 1);
+                    literal = literal.substring(0, literal.length() - 1);
+                }
+              if(lexema == "" && lexema.length() <= 1){
+              }else{
                 //Busco el lexema en palabras reservadas
                 TipoToken tipo = palabrasReservadas.get(lexema);
                 //Verifica si es numero, cadena o por defecto identificador
@@ -127,7 +132,12 @@ public class Scanner {
             //Alguna lectura, crea 1 token + 1 token por el simbolo leido
             }else if((simbolos.containsKey(buscarSimbolo)) && !leyendoCadena && !comentario && !comentarioLargo){
                 //Si el lexema esta vacio o es salto de linea no lo agrega
-                if(lexema != "" && (caracter != '\n' && lexema.length() > 0)){
+                if(caracter == '\n' && lexema.length() > 0){
+                    lexema = lexema.substring(0, lexema.length() - 1);
+                    literal = literal.substring(0, literal.length() - 1);
+                }
+                if(lexema == "" && lexema.length() <= 1){
+                  }else{
                 //Busco el lexema en palabras reservadas
                 TipoToken tipo = palabrasReservadas.get(lexema);
                 //Verifica si es numero, cadena o por defecto identificador
@@ -188,7 +198,7 @@ public class Scanner {
                 }else if(source.charAt(x+1) == '*'){
                     comentarioLargo = true;
                 }
-            //Reviso si es fin de comentario
+            //Reviso si es fin de comentario largo
             }else if(caracter == '*'){
                 if(source.charAt(x+1) == '/'){
                     comentarioLargo = false;

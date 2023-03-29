@@ -1,9 +1,5 @@
-Ahhhhhhh
-Que onda tu;
-
-/* printf("Hola tu");
-Or //TU VEINTE COMES
-And == 5; //EL NOSOTROS
-*/
-a = 5;
-printf("Hola tu");
+If(Karen Or !Rogelio){
+	a = "Chocolate" //Otro chococompa
+}Else{
+	b = 4.2; //Chocolate Karnal
+}
