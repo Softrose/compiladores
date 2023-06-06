@@ -1,5 +1,12 @@
-If(Karen Or !Rogelio){
-	a = "Chocolate" //Otro chococompa
-}Else{
-	b = 4.2; //Chocolate Karnal
+/*
+Código para calcula la serie de Fibonacci
+*/
+VAR fib = 0;
+VAR lim = 10;
+VAR aux = 1;
+
+FOR(VAR init = 1; init <= lim; init = init + 1){
+    PRINT fib;
+    aux ;= aux + fib;
+    fib = aux - fib;
 }

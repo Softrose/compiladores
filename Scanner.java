@@ -1,282 +1,187 @@
-//package mx.ipn.escom.compiladores;
-
-// Analizador lexico
-// Autor: Karen Soledad y Raul Rosete
-// Fecha: 29/03/2023
-// Materia: Compiladores
-// Grupo 3CV13
-
-
-//Delcaracion de librerias
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Scanner {
+    private final String source;
 
-    //Cadena de entrada
-    private String source;
-    //Declaracion de lista de tokens
     private final List<Token> tokens = new ArrayList<>();
-    //Linea actual que se escanea
-    private int linea = 1;
-    private String lexema = "";
-    //Caracter actual leido
-    private char caracter;
-    //Variable para buscar simbolos
-    private String buscarSimbolo = "";
-    //Variable para buscar simbolos compuestos
-    private String simboloCompuesto = "";
-    //Variable para leer cadena completa con espacios
-    private boolean leyendoCadena = false;
-    //Valor del lexema
-    private String literal = "";
-    //Variable para saber si el lexema es cadena
-    private boolean esCadena = false;
-    //Longitud de la entrada
-    private int longitud;
-    //Variables para desactivar lectura de lexema
-    private boolean comentario = false;
-    private boolean comentarioLargo = false;
 
-    //Hash Map con Palabras reservadas
     private static final Map<String, TipoToken> palabrasReservadas;
     static {
         palabrasReservadas = new HashMap<>();
-        palabrasReservadas.put("And", TipoToken.And);
-        palabrasReservadas.put("Class", TipoToken.Class);
-        palabrasReservadas.put("Else", TipoToken.Else);
-        palabrasReservadas.put("False", TipoToken.False);
-        palabrasReservadas.put("For", TipoToken.For);
-        palabrasReservadas.put("Fun", TipoToken.Fun); //definir funciones
-        palabrasReservadas.put("If", TipoToken.If);
-        palabrasReservadas.put("Null", TipoToken.Null);
-        palabrasReservadas.put("Or", TipoToken.Or);
-        palabrasReservadas.put("Print", TipoToken.Print);
-        palabrasReservadas.put("Return", TipoToken.Return);
-        palabrasReservadas.put("Super", TipoToken.Super);
-        palabrasReservadas.put("This", TipoToken.This);
-        palabrasReservadas.put("True", TipoToken.True);
-        palabrasReservadas.put("Var", TipoToken.Var); //definir variables
-        palabrasReservadas.put("While", TipoToken.While);
+        palabrasReservadas.put("FOR", TipoToken.FOR);
+        palabrasReservadas.put("WHILE", TipoToken.WHILE);
+        palabrasReservadas.put("IF", TipoToken.IF);
+        palabrasReservadas.put("RETURN", TipoToken.RETURN);
+        palabrasReservadas.put("SUPER", TipoToken.SUPER);
+        palabrasReservadas.put("FUN", TipoToken.FUN);
+        palabrasReservadas.put("VAR", TipoToken.VAR);
+        palabrasReservadas.put("CLASS", TipoToken.CLASS);
+        palabrasReservadas.put("TRUE", TipoToken.TRUE);
+        palabrasReservadas.put("FALSE", TipoToken.FALSE);
+        palabrasReservadas.put("THIS", TipoToken.THIS);
+        palabrasReservadas.put("NULL", TipoToken.NULL);
+        palabrasReservadas.put("PRINT", TipoToken.PRINT);
+        palabrasReservadas.put("ELSE", TipoToken.ELSE);
+        palabrasReservadas.put("AND", TipoToken.AND);
+        palabrasReservadas.put("OR", TipoToken.OR);
+        palabrasReservadas.put("CALL", TipoToken.CALL);
     }
 
-    //Hash Map con Simbolos especiales
-    private static final Map<String, TipoToken> simbolos;
-    static {
-        simbolos = new HashMap<>();
-        simbolos.put("(", TipoToken.Open_parent);
-        simbolos.put(")", TipoToken.Close_parent);
-        simbolos.put("{", TipoToken.Open_curly);
-        simbolos.put("}", TipoToken.Close_curly);
-        simbolos.put(",", TipoToken.Comma);
-        simbolos.put(";", TipoToken.Dot_comma);
-        simbolos.put("-", TipoToken.Hyphen);
-        simbolos.put("+", TipoToken.Plus);
-        simbolos.put("!", TipoToken.ExclamationMark);
-        simbolos.put("!=", TipoToken.Exclamation_equal);
-        simbolos.put("=", TipoToken.Equal);
-        simbolos.put("==", TipoToken.Equal_equal);
-        simbolos.put("<", TipoToken.LessThan);
-        simbolos.put("<=", TipoToken.Less_equal);
-        simbolos.put(">", TipoToken.GreatherThan);
-        simbolos.put(">=", TipoToken.Greather_equal);
-    }
-
-    //Metodo constructor recibe como argumento la entrada de texto
     Scanner(String source){
-        this.source = source;
+        this.source = source + " ";
     }
 
-    //Metodo principal que regresa una lista de tokens
     List<Token> scanTokens(){
-        //Aquí va el corazón del scanner <3.
-        //Agrego un salto de linea para leer el ultimo lexema
-        source = source + "\n \n";
-        //Asigno la cantidad de caracteres en la entrada a longitud
-        longitud = source.length();
-        
-        //Realizo un for para leer todos los caracteres de la entrada
-        for(int x = 0; x < longitud; x++){
-            //Asigno el caracter actual a la variable caracter
-            caracter = source.charAt(x);
-            //Asigno el caracter a la variable buscarSimbolo y la concateno con una 
-            //cadena vacia para convertirlo en una cadena
-            buscarSimbolo = caracter + "";
-            
-            //Si espacio o salto de linea lexema termina
-            //No crea tokens si es cadena o comentario
-            if((caracter == ' ' || caracter == '\n') && !leyendoCadena && !comentario && !comentarioLargo){
-                //Si el lexema esta vacio o es salto de linea no lo agrega
-              if(caracter == '\n' && lexema.length() > 0){
-                    lexema = lexema.substring(0, lexema.length() - 1);
-                    literal = literal.substring(0, literal.length() - 1);
-                }
-              if(lexema == "" && lexema.length() <= 1){
-              }else{
-                //Busco el lexema en palabras reservadas
-                TipoToken tipo = palabrasReservadas.get(lexema);
-                //Verifica si es numero, cadena o por defecto identificador
-                    if(isNumeric(literal)){
-                        tipo = TipoToken.Number;
-                    }else if (esCadena) {
-                        tipo = TipoToken.String;
-                        esCadena = false;
-                    }else if (tipo == null){
-                        tipo = TipoToken.Identifier;
+        int estado = 0;
+        char caracter = 0;
+        String lexema = "";
+        int inicioLexema = 0;
+
+        for(int i=0; i<source.length(); i++){
+            caracter = source.charAt(i);
+
+            switch (estado){
+                case 0:
+                    if(caracter == '('){
+                        tokens.add(new Token(TipoToken.Open_parent, "(", i + 1));
                     }
-                    //Crea el token
-                    Token token = new Token(tipo, lexema, literal, linea);
-                    //Agrega el token a la lista de tokens
-                    tokens.add(token);
-                    
-                }
-                //Limpio el lexema y la literal para no acumular basura
-                lexema = "";
-                literal = "";
-            //Si encuentro un simbolo y no estoy leyendo cadena y no es comentario
-            //Creo 1 o 2 tokens dependiendo el caso, si el lexema ya tenia previamente 
-            //Alguna lectura, crea 1 token + 1 token por el simbolo leido
-            }else if((simbolos.containsKey(buscarSimbolo)) && !leyendoCadena && !comentario && !comentarioLargo){
-                //Si el lexema esta vacio o es salto de linea no lo agrega
-                if(caracter == '\n' && lexema.length() > 0){
-                    lexema = lexema.substring(0, lexema.length() - 1);
-                    literal = literal.substring(0, literal.length() - 1);
-                }
-                if(lexema == "" && lexema.length() <= 1){
-                  }else{
-                //Busco el lexema en palabras reservadas
-                TipoToken tipo = palabrasReservadas.get(lexema);
-                //Verifica si es numero, cadena o por defecto identificador
-                    if(isNumeric(literal)){
-                        tipo = TipoToken.Number;
-                    }else if (esCadena) {
-                        tipo = TipoToken.String;
-                        esCadena = false;
-                    }else if (tipo == null){
-                        tipo = TipoToken.Identifier;
+                    else if(caracter == ')'){
+                        tokens.add(new Token(TipoToken.Close_parent, ")", i + 1));
                     }
-                    //Crea el token
-                    Token token = new Token(tipo, lexema, literal, linea);
-                    //Agrega el token a la lista de tokens
-                    tokens.add(token);
-                }
-                //Le agrego el caracter siguiente al simbolo para verificar si es compuesto
-                simboloCompuesto = buscarSimbolo + source.charAt(x+1);
-                //Busco si es un simbolo compuesto
-                if(simbolos.containsKey(simboloCompuesto)){
-                    //Creo el tipo del simbolo compuesto
-                    TipoToken tipoC = simbolos.get(simboloCompuesto);
-                    //Crea el token
-                    Token tokenC = new Token(tipoC, simboloCompuesto, null, linea);
-                    //Agrego el token a la lista de tokens
-                    tokens.add(tokenC);
-                    //Avanzo el caracter actual en 1 posicion para no volver a leer el 
-                    //mismo simbolo
-                    x = x + 1;
-                
-                }else{
-                    //Si es un simbolo normal obteno el tipo
-                    TipoToken tipoS = simbolos.get(buscarSimbolo);
-                    //Crea el Token
-                    Token tokenS = new Token(tipoS, buscarSimbolo, null, linea);
-                    //Agrego el token a la lista de tokens
-                    tokens.add(tokenS);
-                }
-                //Limpio el lexema y la literal para no acumular basura
-                lexema = "";
-                literal = "";
-            //Reviso si el caracter es el comienzo o fin de cadena
-            }else if(caracter == '"'){
-                //Activo la variable para indicar que es cadena el tipo de lexema
-                esCadena = true;
-                //Si estoy leyendo cadena cambio a falso y si es falso cambio a verdadero
-                if (leyendoCadena == true) {
-                    leyendoCadena = false;
-                    lexema =  lexema + '"';
-                }else{
-                    leyendoCadena = true;
-                    lexema =  '"' + lexema ;
-                }
-            //Reviso si comienza un comentario o comentario largo
-            }else if(caracter == '/'){
-                if(source.charAt(x+1) == '/'){
-                    comentario = true;
-                }else if(source.charAt(x+1) == '*'){
-                    comentarioLargo = true;
-                }
-            //Reviso si es fin de comentario largo
-            }else if(caracter == '*'){
-                if(source.charAt(x+1) == '/'){
-                    comentarioLargo = false;
-                }
-            }else{
-                //No leo lexemas en caso de ser comentario
-                if(comentario || comentarioLargo){
-                }else{
-                    //Agrego el caracter actual al lexema y literal
-                    lexema = lexema + "" + caracter;
-                    literal = literal + "" + caracter;
-                }
-            }
-            //Si es salto de linea sumo el contador y termino el comentario de una linea
-            if(caracter == '\n'){
-                linea = linea + 1;
-                comentario = false;
+                    else if(caracter == '{'){
+                        tokens.add(new Token(TipoToken.Open_curly, "{", i + 1));
+                    }
+                    else if(caracter == '}'){
+                        tokens.add(new Token(TipoToken.Close_curly, "}", i + 1));
+                    }
+                    else if(caracter == ','){
+                        tokens.add(new Token(TipoToken.Comma, ",", i + 1));
+                    }
+                    else if(caracter == '.'){
+                        tokens.add(new Token(TipoToken.Dot, ".", i + 1));
+                    }
+                    else if(caracter == ';'){
+                        tokens.add(new Token(TipoToken.Dot_comma, ";", i + 1));
+                    }
+                    else if(caracter == '-'){
+                        tokens.add(new Token(TipoToken.Hyphen, "-", i + 1));
+                    }
+                    else if(caracter == '+'){
+                        tokens.add(new Token(TipoToken.Plus, "+", i + 1));
+                    }
+                    if (caracter == '/') {
+                        if (source.charAt(i + 1) == '/') {
+                            i = source.indexOf('\n', i) - 1;
+                            break;
+                        }
+                        else if (source.charAt(i + 1) == '*') {
+                            i = source.indexOf("*/", i) + 1;
+                            break;
+                        }else{
+                            tokens.add(new Token(TipoToken.Slash, "/", i + 1));
+                        }
+                    }
+                    else if(caracter == '*'){
+                        tokens.add(new Token(TipoToken.Star, "*", i + 1));
+                    }
+                    else if(caracter == '!'){
+                        if (source.charAt(i+ 1) == '=') {
+                            tokens.add(new Token(TipoToken.Exclamation_equal, "!=", i + 1));
+                            i++;
+                        }else{
+                            tokens.add(new Token(TipoToken.ExclamationMark, "!", i + 1));
+                        }
+                    }
+                    else if(caracter == '='){
+                        if(source.charAt(i+ 1) == '='){
+                            tokens.add(new Token(TipoToken.Equal_equal, "==", i + 1));
+                            i++;
+                        }else{
+                            tokens.add(new Token(TipoToken.Equal, "=", i + 1));
+                        }
+                    }
+                    else if(caracter == '<'){
+                        if(source.charAt(i+ 1) == '='){
+                            tokens.add(new Token(TipoToken.Less_equal, "<=", i + 1));
+                            i++;
+                        }else{
+                            tokens.add(new Token(TipoToken.LessThan, "<", i + 1));
+                        }
+                    }
+                    else if(caracter == '>'){
+                        if(source.charAt(i+ 1) == '='){
+                            tokens.add(new Token(TipoToken.Greather_equal, ">=", i + 1));
+                            i++;
+                        }else{
+                            tokens.add(new Token(TipoToken.LessThan, ">", i + 1));
+                        }
+                    }
+                    else if(Character.isAlphabetic(caracter)){
+                        estado = 1;
+                        lexema = lexema + caracter;
+                        inicioLexema = i;
+                    }
+                    else if (Character.isDigit(caracter)) {
+                        estado = 2;
+                        lexema = lexema + caracter;
+                        inicioLexema = i;
+                    }
+                    else if (caracter == '"') {
+                        estado = 3;
+                        lexema = lexema + caracter;
+                        inicioLexema = i;
+                    }
+                    break;
+
+                case 1:
+                    if(Character.isAlphabetic(caracter) || Character.isDigit(caracter) ){
+                        lexema = lexema + caracter;
+                    }
+                    else{
+                        TipoToken tt = palabrasReservadas.get(lexema);
+                        if(tt == null){
+                            tokens.add(new Token(TipoToken.IDENTIFICADOR, lexema, inicioLexema + 1));
+                        }
+                        else{
+                            tokens.add(new Token(tt, lexema, inicioLexema + 1));
+                        }
+
+                        estado = 0;
+                        i--;
+                        lexema = "";
+                        inicioLexema = 0;
+                    }
+                    break;
+                case 2:
+                    if (Character.isDigit(caracter)) {
+                        lexema = lexema + caracter;
+                    } else {
+                        tokens.add(new Token(TipoToken.NUMBER, lexema, inicioLexema + 1));
+                        estado = 0;
+                        i--;
+                        lexema = "";
+                        inicioLexema = 0;
+                    }
+                    break;
+                case 3:
+                    if (caracter != '"') {
+                        lexema = lexema + caracter;
+                    } else {
+                        lexema = lexema + caracter;
+                        tokens.add(new Token(TipoToken.STRING, lexema, inicioLexema + 1));
+                        estado = 0;
+                        lexema = "";
+                        inicioLexema = 0;
+                    }
+                    break;
             }
         }
-
-        //Agrego el fin de cada a los tokens
-        tokens.add(new Token(TipoToken.EOF, "", null, linea));
+        tokens.add(new Token(TipoToken.EOF, "", source.length()));
 
         return tokens;
     }
 
-    //Funcion para comprobar si una cade es un numero
-    public static boolean isNumeric(String cadena) {
-
-        boolean resultado;
-
-        //Si puedo convertir cadena en numero regreso verdadero y sino falso
-        try {
-            Integer.parseInt(cadena);
-            resultado = true;
-        } catch (NumberFormatException excepcion) {
-            resultado = false;
-        }
-
-        return resultado;
-    }
-
 }
-
-/*
-Signos o símbolos del lenguaje:
-(
-)
-{
-}
-,
-.
-;
--
-+
-*
-/
-!
-!=
-=
-==
-<
-<=
->
->=
-// -> comentarios (no se genera token)
-/* ... * / -> comentarios (no se genera token)
-Identificador,
-Cadena
-Numero
-Cada palabra reservada tiene su nombre de token
-
- */
