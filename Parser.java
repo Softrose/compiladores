@@ -75,7 +75,6 @@ public class Parser {
         }
     }
 
-
     void DECLARATION(){
         if (preanalisis.equals(CLASS)) {
             CLASS_DECL();
@@ -257,10 +256,6 @@ public class Parser {
         if(!preanalisis.equals(DOT_COMMA)){
             EXPRESSION();
         }
-        /*else{
-            hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". No se esperaba ;");
-        }*/
     }
 
     void WHILE_STMT(){
@@ -581,5 +576,4 @@ public class Parser {
 
         }
     }
-
 }
