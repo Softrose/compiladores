@@ -1,3 +1,10 @@
+//Analizador Sintáctico 
+//ESCOM 2023
+//Grupo 3CV13
+//Creado por:
+//Soledad Hernandez Karen - Hezarelez@gmail.com / ksoledadh1000@alumno.ipn.mx
+//Rosete Chávez Raúl - Raulrrc96@gmail.com / rrosetec1400@alumno.ipn.mx
+
 import java.util.List;
 
 public class Parser {
@@ -70,23 +77,27 @@ public class Parser {
     }
 
     void PROGRAM(){
-        while(!preanalisis.equals(EOF) && !hayErrores){
+        //while(!preanalisis.equals(EOF) && !hayErrores){
             DECLARATION();
-        }
+        //}
     }
 
     void DECLARATION(){
-        if (preanalisis.equals(CLASS)) {
-            CLASS_DECL();
-        }else if(preanalisis.equals(FUN)){
-            FUN_DECL();
-        }else if(preanalisis.equals(VAR)){
-            VAR_DECL();
-        }else if(preanalisis.equals(IF) || preanalisis.equals(FOR) || preanalisis.equals(PRINT) || preanalisis.equals(RETURN)
-         || preanalisis.equals(WHILE) || preanalisis.equals(OPEN_CURLY) || preanalisis.equals(IDENTIFICADOR)){
-            STATEMENT();
-        }else{
-        }
+            if (preanalisis.equals(CLASS)) {
+                CLASS_DECL();
+            }else if(preanalisis.equals(FUN)){
+                FUN_DECL();
+            }else if(preanalisis.equals(VAR)){
+                VAR_DECL();
+            }else if(preanalisis.equals(IF) || preanalisis.equals(FOR) || preanalisis.equals(PRINT) || preanalisis.equals(RETURN)
+             || preanalisis.equals(WHILE) || preanalisis.equals(OPEN_CURLY) || preanalisis.equals(IDENTIFICADOR)){
+                STATEMENT();
+            }else{
+                return;
+            }
+            if (!preanalisis.equals(EOF) && !hayErrores){
+                DECLARATION();
+            }
     } 
 
     void CLASS_DECL(){
