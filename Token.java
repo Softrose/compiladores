@@ -24,7 +24,7 @@ public class Token {
         this.tipo = tipo;
         this.lexema = lexema;
         this.posicion = posicion;
-        this.literal = null;
+        this.literal = literal;
     }
 
     @Override

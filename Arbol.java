@@ -18,14 +18,17 @@ public class Arbol {
                 case Hyphen:
                 case Star:
                 case Slash:
+
+                    System.out.print("Si entra aca");
+
                     SolverAritmetico solver = new SolverAritmetico(n);
                     Object res = solver.resolver();
                     System.out.println(res);
                 break;
 
-                case VAR:
+                /*case VAR:
                     // Crear una variable. Usar tabla de simbolos
-                    break;
+                    break;*/
                 case IF:
                     break;
 

@@ -62,18 +62,20 @@ public class Parser {
         this.tokens = tokens;
     }
 
-    public void parse(){
+    public boolean parse(){
         i = 0;
         preanalisis = tokens.get(i);
         PROGRAM();
 
         if(!hayErrores && !preanalisis.equals(EOF)){
             System.out.println("Error en la posición " + preanalisis.posicion + ". No se esperaba el token " + preanalisis.tipo);
+            return false;
         }
         else if(!hayErrores && preanalisis.equals(EOF)){
             System.out.println("Sentencia válida");
+            return true;
         }
-
+        return false;
     }
 
     void PROGRAM(){

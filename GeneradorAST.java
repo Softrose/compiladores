@@ -86,7 +86,7 @@ public class GeneradorAST {
         }
 
         // Suponiendo que en la pila sólamente queda un nodo
-        // Nodo nodoAux = pila.pop();
+        Nodo nodoAux = pila.pop();
         Arbol programa = new Arbol(raiz);
 
         return programa;

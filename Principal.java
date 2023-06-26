@@ -16,6 +16,7 @@ import java.util.List;
 public class Principal {
 
     static boolean existenErrores = false;
+    static boolean analisisSintactico;
 
     public static void main(String[] args) throws IOException {
         if(args.length > 1) {
@@ -59,19 +60,22 @@ public class Principal {
             System.out.println(token);
         }*/
 
-        Parser parser = new Parser(tokens);
-        parser.parse();
+        /*Parser parser = new Parser(tokens);
+        analisisSintactico = parser.parse();*/
 
-        GeneradorPostfija gpf = new GeneradorPostfija(tokens);
-        List<Token> postfija = gpf.convertir();
+        //if(analisisSintactico){
+            GeneradorPostfija gpf = new GeneradorPostfija(tokens);
+            List<Token> postfija = gpf.convertir();
 
-        /*for(Token token : postfija){
-            System.out.println(token);
-        }*/
+            /*for(Token token : postfija){
+                System.out.println(token);
+            }*/
 
-        GeneradorAST gast = new GeneradorAST(postfija);
-        Arbol programa = gast.generarAST();
-        programa.recorrer();
+
+            GeneradorAST gast = new GeneradorAST(postfija);
+            Arbol programa = gast.generarAST();
+            programa.recorrer();
+        //}
     }
 
     /*
@@ -79,6 +83,7 @@ public class Principal {
     para reportar los errores:
     Interprete.error(....);
      */
+
     static void error(int linea, String mensaje){
         reportar(linea, "", mensaje);
     }

@@ -36,6 +36,8 @@ public class Scanner {
 
     List<Token> scanTokens(){
         int estado = 0;
+        Double litNum = 0.0;
+        String litStr = "";
         char caracter = 0;
         String lexema = "";
         int inicioLexema = 0;
@@ -159,7 +161,8 @@ public class Scanner {
                     if (Character.isDigit(caracter)) {
                         lexema = lexema + caracter;
                     } else {
-                        tokens.add(new Token(TipoToken.NUMBER, lexema, inicioLexema + 1));
+                        litNum = Double.valueOf(lexema);
+                        tokens.add(new Token(TipoToken.NUMBER, lexema, inicioLexema + 1, litNum));
                         estado = 0;
                         i--;
                         lexema = "";
@@ -171,7 +174,8 @@ public class Scanner {
                         lexema = lexema + caracter;
                     } else {
                         lexema = lexema + caracter;
-                        tokens.add(new Token(TipoToken.STRING, lexema, inicioLexema + 1));
+                        litStr = lexema.substring(1, lexema.length() - 1);
+                        tokens.add(new Token(TipoToken.STRING, lexema, inicioLexema + 1, litStr));
                         estado = 0;
                         lexema = "";
                         inicioLexema = 0;
