@@ -1,7 +1,6 @@
 public class SolverAritmetico {
 
     private final Nodo nodo;
-   // private TablaSimbolos tabla = new TablaSimbolos();
 
     public SolverAritmetico(Nodo nodo) {
         this.nodo = nodo;
@@ -17,7 +16,12 @@ public class SolverAritmetico {
                 return n.getValue().literal;
             }
             else if(n.getValue().tipo == TipoToken.IDENTIFICADOR){
-                return TablaSimbolos.obtener((String)n.getValue().lexema);
+                if(TablaSimbolos.existeIdentificador((String)n.getValue().lexema)){
+                    return TablaSimbolos.obtener((String)n.getValue().lexema);
+                }else{
+                    System.out.println("No existe la variable " + (String)n.getValue().lexema);
+                    return null;
+                }
             }
         }
 
