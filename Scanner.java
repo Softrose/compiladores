@@ -116,7 +116,7 @@ public class Scanner {
                             tokens.add(new Token(TipoToken.Greather_equal, ">=", i + 1));
                             i++;
                         }else{
-                            tokens.add(new Token(TipoToken.LessThan, ">", i + 1));
+                            tokens.add(new Token(TipoToken.GreatherThan, ">", i + 1));
                         }
                     }
                     else if(Character.isAlphabetic(caracter)){
