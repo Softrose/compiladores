@@ -13,7 +13,11 @@ public class GeneradorAST {
 
     public Arbol generarAST() {
         Stack<Nodo> pilaPadres = new Stack<>();
-        Nodo raiz = new Nodo(null);
+        //Nodo raiz = new Nodo(null);
+        //pilaPadres.push(raiz);
+
+        //Nodo padre = raiz;
+        Nodo raiz = new Nodo(postfija.get(postfija.size()-2));
         pilaPadres.push(raiz);
 
         Nodo padre = raiz;
@@ -34,6 +38,7 @@ public class GeneradorAST {
 
             }
             else if(t.esOperando()){
+
                 Nodo n = new Nodo(t);
                 pila.push(n);
             }
@@ -49,44 +54,46 @@ public class GeneradorAST {
             else if(t.tipo == TipoToken.Dot_comma){
 
                 if (pila.isEmpty()){
-                    /*
-                    Si la pila esta vacía es porque t es un punto y coma
-                    que cierra una estructura de control
-                     */
+                    
+                    //Si la pila esta vacía es porque t es un punto y coma
+                    //que cierra una estructura de control
+                     
                     pilaPadres.pop();
                     padre = pilaPadres.peek();
                 }
                 else{
                     Nodo n = pila.pop();
 
-                    if(padre.getValue().tipo == TipoToken.VAR){
-                        /*
-                        En el caso del VAR, es necesario eliminar el igual que
-                        pudiera aparecer en la raíz del nodo n.
-                         */
-                        if(n.getValue().tipo == TipoToken.Equal){
-                            padre.insertarHijos(n.getHijos());
+                    //if (padre.getValue() != null) {
+                        
+                        if(padre.getValue().tipo == TipoToken.VAR){
+                            //En el caso del VAR, es necesario eliminar el igual que
+                            //pudiera aparecer en la raíz del nodo n.
+                             
+                            if(n.getValue().tipo == TipoToken.Equal){
+                                padre.insertarHijos(n.getHijos());
+                            }
+                            else{
+                                padre.insertarSiguienteHijo(n);
+                            }
+                            pilaPadres.pop();
+                            padre = pilaPadres.peek();
                         }
-                        else{
+                        else if(padre.getValue().tipo == TipoToken.PRINT){
+                            padre.insertarSiguienteHijo(n);
+                            pilaPadres.pop();
+                            padre = pilaPadres.peek();
+                        }
+                        else {
                             padre.insertarSiguienteHijo(n);
                         }
-                        pilaPadres.pop();
-                        padre = pilaPadres.peek();
-                    }
-                    else if(padre.getValue().tipo == TipoToken.PRINT){
-                        padre.insertarSiguienteHijo(n);
-                        pilaPadres.pop();
-                        padre = pilaPadres.peek();
-                    }
-                    else {
-                        padre.insertarSiguienteHijo(n);
-                    }
+                    //}
                 }
             }
         }
 
         // Suponiendo que en la pila sólamente queda un nodo
-        Nodo nodoAux = pila.pop();
+        //Nodo nodoAux = pila.pop();
         Arbol programa = new Arbol(raiz);
 
         return programa;

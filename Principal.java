@@ -60,8 +60,8 @@ public class Principal {
             System.out.println(token);
         }*/
 
-        /*Parser parser = new Parser(tokens);
-        analisisSintactico = parser.parse();*/
+        Parser parser = new Parser(tokens);
+        analisisSintactico = parser.parse();
 
         //if(analisisSintactico){
             GeneradorPostfija gpf = new GeneradorPostfija(tokens);

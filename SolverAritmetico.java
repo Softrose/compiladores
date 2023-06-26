@@ -1,6 +1,7 @@
 public class SolverAritmetico {
 
     private final Nodo nodo;
+   // private TablaSimbolos tabla = new TablaSimbolos();
 
     public SolverAritmetico(Nodo nodo) {
         this.nodo = nodo;
@@ -16,7 +17,7 @@ public class SolverAritmetico {
                 return n.getValue().literal;
             }
             else if(n.getValue().tipo == TipoToken.IDENTIFICADOR){
-                // Ver la tabla de símbolos
+                return TablaSimbolos.obtener((String)n.getValue().lexema);
             }
         }
 
@@ -42,10 +43,11 @@ public class SolverAritmetico {
         else if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
             if (n.getValue().tipo == TipoToken.Plus){
                 // Ejecutar la concatenación
+                return ((String)resultadoIzquierdo + (String) resultadoDerecho);
             }
         }
         else{
-            // Error por diferencia de tipos
+            System.out.println("Error en tipos de operandos");
         }
 
         return null;
