@@ -1,8 +1,8 @@
-public class SolverAritmetico {
+public class SolverLogico {
 
     private final Nodo nodo;
 
-    public SolverAritmetico(Nodo nodo) {
+    public SolverLogico(Nodo nodo) {
         this.nodo = nodo;
     }
 
@@ -32,16 +32,8 @@ public class SolverAritmetico {
         Object resultadoIzquierdo = resolver(izq);
         Object resultadoDerecho = resolver(der);
 
-        if(resultadoIzquierdo instanceof Double && resultadoDerecho instanceof Double){
+        if(resultadoIzquierdo instanceof Object && resultadoDerecho instanceof Object){
             switch (n.getValue().tipo){
-                case Plus:
-                    return ((Double)resultadoIzquierdo + (Double) resultadoDerecho);
-                case Hyphen:
-                    return ((Double)resultadoIzquierdo - (Double) resultadoDerecho);
-                case Star:
-                    return ((Double)resultadoIzquierdo * (Double) resultadoDerecho);
-                case Slash:
-                    return ((Double)resultadoIzquierdo / (Double) resultadoDerecho);
                 case LessThan:
                     return ((Double)resultadoIzquierdo < (Double) resultadoDerecho);
                 case Less_equal:
@@ -52,24 +44,21 @@ public class SolverAritmetico {
                     return ((Double)resultadoIzquierdo >= (Double) resultadoDerecho);
                 case Equal_equal:
                     if( Double.compare((Double)resultadoIzquierdo, (Double)resultadoDerecho) == 0){
-                        return true;
-                    }else{
-                        return false;
+                        System.out.println("Iguales");
                     }
+                    //System.out.println((Double)resultadoIzquierdo);
+                    //System.out.println((Double)resultadoDerecho);
+                    return ((Double)resultadoIzquierdo == (Double) resultadoDerecho);
                 case Exclamation_equal:
-                    if( Double.compare((Double)resultadoIzquierdo, (Double)resultadoDerecho) == 0){
-                        return false;
-                    }else{
-                        return true;
-                    }
+                    return ((Double)resultadoIzquierdo != (Double) resultadoDerecho);
             }
         }
-        else if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
+        /*else if(resultadoIzquierdo instanceof String && resultadoDerecho instanceof String){
             if (n.getValue().tipo == TipoToken.Plus){
                 // Ejecutar la concatenación
                 return ((String)resultadoIzquierdo + (String) resultadoDerecho);
             }
-        }
+        }*/
         else{
             System.out.println("Error en tipos de operandos");
         }

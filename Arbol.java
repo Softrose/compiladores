@@ -5,6 +5,7 @@ public class Arbol {
 
     private Object res;
     private SolverAritmetico solver;
+    private SolverLogico solverLogico;
     private Nodo val;
     private Nodo identif;
 
@@ -68,6 +69,21 @@ public class Arbol {
                     solver = new SolverAritmetico(print);
                     res = solver.resolver();
                     System.out.println(res);
+                    break;
+                case WHILE:
+                    solver = new SolverAritmetico(n.getHijos().get(0));
+                    res = solver.resolver();
+
+                    while((boolean)res){
+                        
+                        //Aquí meter lo de dentro del While
+                        
+                        Arbol programa = new Arbol(n);
+                        programa.recorrer();
+
+                        solver = new SolverAritmetico(n.getHijos().get(0));
+                        res = solver.resolver();
+                    }
                     break;
 
             }

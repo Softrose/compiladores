@@ -63,9 +63,7 @@ public class GeneradorAST {
                 }
                 else{
                     Nodo n = pila.pop();
-
-                    //if (padre.getValue() != null) {
-                        
+      
                         if(padre.getValue().tipo == TipoToken.VAR){
                             //En el caso del VAR, es necesario eliminar el igual que
                             //pudiera aparecer en la raíz del nodo n.
@@ -87,7 +85,6 @@ public class GeneradorAST {
                         else {
                             padre.insertarSiguienteHijo(n);
                         }
-                    //}
                 }
             }
         }

@@ -56,14 +56,10 @@ public class Principal {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        /*for(Token token : tokens){
-            System.out.println(token);
-        }*/
-
         Parser parser = new Parser(tokens);
         analisisSintactico = parser.parse();
 
-        //if(analisisSintactico){
+        if(analisisSintactico){
             GeneradorPostfija gpf = new GeneradorPostfija(tokens);
             List<Token> postfija = gpf.convertir();
 
@@ -75,7 +71,7 @@ public class Principal {
             GeneradorAST gast = new GeneradorAST(postfija);
             Arbol programa = gast.generarAST();
             programa.recorrer();
-        //}
+        }
     }
 
     /*
