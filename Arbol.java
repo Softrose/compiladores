@@ -7,9 +7,11 @@ public class Arbol {
     private SolverAritmetico solver;
     private SolverLogico solverLogico;
     private Nodo val;
+    private boolean ejecutarElse;
     private Nodo identif;
 
     private final Nodo raiz;
+    private Arbol programa;
     //TablaSimbolos tabla = new TablaSimbolos();
 
     public Arbol(Nodo raiz){
@@ -18,8 +20,8 @@ public class Arbol {
 
     public void recorrer(){
 
+        
         for(Nodo n : raiz.getHijos()){
-
             Token t = n.getValue();
             switch (t.tipo){
                 // Operadores aritméticos
@@ -63,7 +65,27 @@ public class Arbol {
                     }
                     break;
                 case IF:
+                    solver = new SolverAritmetico(n.getHijos().get(0));
+                    res = solver.resolver();
+
+                    if((boolean)res){
+                        
+                        //Aquí meter lo de dentro del While
+                        
+                        programa = new Arbol(n);
+                        programa.recorrer();
+                    }else{
+                        if(n.getHijos().size() > 2){
+                            Nodo existElse = n.getHijos().get(2);
+                            programa = new Arbol(existElse);
+                            programa.recorrer();
+                        }
+                    }
                     break;
+                /*case ELSE:
+                        programa = new Arbol(n);
+                        programa.recorrer();
+                    break;*/
                 case PRINT:
                     Nodo print = n.getHijos().get(0);
                     solver = new SolverAritmetico(print);
@@ -78,14 +100,28 @@ public class Arbol {
                         
                         //Aquí meter lo de dentro del While
                         
-                        Arbol programa = new Arbol(n);
+                        programa = new Arbol(n);
                         programa.recorrer();
 
                         solver = new SolverAritmetico(n.getHijos().get(0));
                         res = solver.resolver();
                     }
                     break;
+                case FOR:
+                    solver = new SolverAritmetico(n.getHijos().get(0));
+                    res = solver.resolver();
+                    int x = 0;
+                    while((boolean)res){
+                        
+                        //Aquí meter lo de dentro del While
+                        
+                        programa = new Arbol(n);
+                        programa.recorrer();
 
+                        solver = new SolverAritmetico(n.getHijos().get(0));
+                        res = solver.resolver();
+                    }
+                    break;
             }
         }
     }

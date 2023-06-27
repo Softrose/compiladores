@@ -1,0 +1,11 @@
+// Prueba 7:
+VAR radio = 5;
+VAR pi = 3.1416;
+VAR area = pi*radio *radio;
+
+IF(area > 100 AND radio<10){
+    PRINT "Condicion válida";
+}
+ELSE{
+    PRINT "No se cumple el criterio";
+}

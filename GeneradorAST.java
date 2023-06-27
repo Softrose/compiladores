@@ -13,10 +13,6 @@ public class GeneradorAST {
 
     public Arbol generarAST() {
         Stack<Nodo> pilaPadres = new Stack<>();
-        //Nodo raiz = new Nodo(null);
-        //pilaPadres.push(raiz);
-
-        //Nodo padre = raiz;
         Nodo raiz = new Nodo(postfija.get(postfija.size()-2));
         pilaPadres.push(raiz);
 
@@ -89,8 +85,6 @@ public class GeneradorAST {
             }
         }
 
-        // Suponiendo que en la pila sólamente queda un nodo
-        //Nodo nodoAux = pila.pop();
         Arbol programa = new Arbol(raiz);
 
         return programa;

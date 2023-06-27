@@ -62,9 +62,9 @@ public class Scanner {
                     else if(caracter == ','){
                         tokens.add(new Token(TipoToken.Comma, ",", i + 1));
                     }
-                    else if(caracter == '.'){
+                    /*else if(caracter == '.'){
                         tokens.add(new Token(TipoToken.Dot, ".", i + 1));
-                    }
+                    }*/
                     else if(caracter == ';'){
                         tokens.add(new Token(TipoToken.Dot_comma, ";", i + 1));
                     }
@@ -158,7 +158,7 @@ public class Scanner {
                     }
                     break;
                 case 2:
-                    if (Character.isDigit(caracter)) {
+                    if (Character.isDigit(caracter) || caracter == '.') {
                         lexema = lexema + caracter;
                     } else {
                         litNum = Double.valueOf(lexema);

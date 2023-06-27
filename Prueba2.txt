@@ -1,0 +1,5 @@
+// Prueba 2:
+VAR nombre = "Gabriel";
+VAR apellido = "Rodriguez";
+
+PRINT nombre + " " + apellido +  edad;

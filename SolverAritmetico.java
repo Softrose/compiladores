@@ -20,6 +20,7 @@ public class SolverAritmetico {
                     return TablaSimbolos.obtener((String)n.getValue().lexema);
                 }else{
                     System.out.println("No existe la variable " + (String)n.getValue().lexema);
+                    System.exit(65);
                     return null;
                 }
             }
@@ -31,6 +32,8 @@ public class SolverAritmetico {
 
         Object resultadoIzquierdo = resolver(izq);
         Object resultadoDerecho = resolver(der);
+
+        
 
         if(resultadoIzquierdo instanceof Double && resultadoDerecho instanceof Double){
             switch (n.getValue().tipo){
@@ -70,8 +73,18 @@ public class SolverAritmetico {
                 return ((String)resultadoIzquierdo + (String) resultadoDerecho);
             }
         }
+        else if(resultadoIzquierdo instanceof Boolean && resultadoDerecho instanceof Boolean){
+            if (n.getValue().tipo == TipoToken.AND){
+                // Ejecutar la concatenación
+                return ((boolean)resultadoIzquierdo && (boolean)resultadoDerecho);
+            }else if (n.getValue().tipo == TipoToken.OR){
+                // Ejecutar la concatenación
+                return ((boolean)resultadoIzquierdo || (boolean)resultadoDerecho);
+            }
+        }
         else{
             System.out.println("Error en tipos de operandos");
+            System.exit(65);
         }
 
         return null;

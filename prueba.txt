@@ -1,75 +1,11 @@
-//Prueba 1:
-
-VAR a;
-VAR b=0;
-
-
-//Prueba 2:
-
-IF(a<123){
-    PRINT a;
-}
-
-
-//Prueba 3:
-
-FOR(VAR i=0; ;){
-    PRINT i;
-
-    IF (i>100){
-        RETURN;
-    }
-}
-
-
-//Prueba 4:
-
-FUN sumar(variable1, variable2){
-    RETURN variabl1 + variable2;
-}
-
-
-//Prueba 5:
-
-CLASS Perro < Animal {
-    ladrar(){
-        PRINT "Guauuu";
-    }
-
-    comer(){
-        WHILE(tanque < 100){
-            tanque = tanque + 1;
+VAR var1 = 2;
+    IF( var1 == 3 AND var1 == 2){
+        PRINT "Otro Hola";
+    }ELSE{
+        IF(var1 == 1){
+            PRINT "Entra el IF del  Else";
+        }ELSE{
+            PRINT "Entra el ELSE del  Else";
         }
+        
     }
-}
-
-FUN crearPerro(){
-    perro = Perro();
-    perror.ladrar();
-}
-
-crearPerro();
-
-
-//Prueba 6:
-
-VAR nombre = "Hola mundo";
-FUN presentarse(){
-    PRINT nombre;
-}
-
-
-//Prueba 7:
-
-/*
-Código para calcula la serie de Fibonacci
-*/
-VAR fib = 0;
-VAR lim = 10;
-VAR aux = 1;
-
-FOR(VAR init = 1; init <= lim; init = init + 1){
-    PRINT fib;
-    aux = aux + fib;
-    fib = aux - fib;
-}

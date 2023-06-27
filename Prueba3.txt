@@ -1,0 +1,6 @@
+// Prueba 3:
+VAR radio = 5;
+VAR area = pi*radio *radio;
+
+PRINT "El area es: ";
+PRINT area;

@@ -72,7 +72,7 @@ public class Parser {
             return false;
         }
         else if(!hayErrores && preanalisis.equals(EOF)){
-            System.out.println("Sentencia válida");
+            //System.out.println("Sentencia válida");
             return true;
         }
         return false;
