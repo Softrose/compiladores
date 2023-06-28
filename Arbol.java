@@ -1,4 +1,4 @@
-//Analizador Sintáctico 
+//Analizador Semántico 
 //ESCOM 2023
 //Grupo 3CV13
 //Creado por:
@@ -115,19 +115,7 @@ public class Arbol {
                     }
                     break;
                 case FOR:
-                    solver = new SolverAritmetico(n.getHijos().get(0));
-                    res = solver.resolver();
-                    int x = 0;
-                    while((boolean)res){
-                        
-                        //Aquí meter lo de dentro del While
-                        
-                        programa = new Arbol(n);
-                        programa.recorrer();
-
-                        solver = new SolverAritmetico(n.getHijos().get(0));
-                        res = solver.resolver();
-                    }
+                   
                     break;
             }
         }

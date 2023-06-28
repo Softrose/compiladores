@@ -1,4 +1,4 @@
-//Analizador Sintáctico 
+//Analizador Semántico 
 //ESCOM 2023
 //Grupo 3CV13
 //Creado por:
