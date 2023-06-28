@@ -1,3 +1,10 @@
+//Analizador Sintáctico 
+//ESCOM 2023
+//Grupo 3CV13
+//Creado por:
+//Soledad Hernandez Karen - Hezarelez@gmail.com / ksoledadh1000@alumno.ipn.mx
+//Rosete Chávez Raúl - Raulrrc96@gmail.com / rrosetec1400@alumno.ipn.mx
+
 import java.util.List;
 import java.util.Stack;
 
@@ -13,7 +20,7 @@ public class GeneradorAST {
 
     public Arbol generarAST() {
         Stack<Nodo> pilaPadres = new Stack<>();
-        Nodo raiz = new Nodo(postfija.get(postfija.size()-2));
+        Nodo raiz = new Nodo(null);
         pilaPadres.push(raiz);
 
         Nodo padre = raiz;

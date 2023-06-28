@@ -1,3 +1,10 @@
+//Analizador Sintáctico 
+//ESCOM 2023
+//Grupo 3CV13
+//Creado por:
+//Soledad Hernandez Karen - Hezarelez@gmail.com / ksoledadh1000@alumno.ipn.mx
+//Rosete Chávez Raúl - Raulrrc96@gmail.com / rrosetec1400@alumno.ipn.mx
+
 import java.util.ArrayList;
 import java.util.List;
 
